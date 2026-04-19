@@ -129,7 +129,7 @@ export default function LandingPage() {
   }
 
   return (
-    <div ref={mainRef} className="bg-background text-foreground font-sans selection:bg-sage/30 selection:text-sage min-h-screen">
+    <div ref={mainRef} className="bg-background text-foreground font-sans selection:bg-sage/30 selection:text-sage min-h-screen overflow-x-hidden">
       
       {/* Navbar */}
       <nav className="fixed w-full top-0 z-50 bg-background/90 backdrop-blur-xl border-b border-sage/10 transition-all duration-300">
@@ -195,22 +195,22 @@ export default function LandingPage() {
               <span className="block mt-2">Not Against It.</span>
             </h1>
             
-            <p className="hero-sub text-lg md:text-xl text-charcoal/60 mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed font-sans">
+            <p className="hero-sub text-lg md:text-xl text-charcoal/60 mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed font-sans px-4 sm:px-0">
               Personalized homoeopathic care for chronic and acute conditions. Rooted in classical principles, guided by true healing.
             </p>
             
-            <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+            <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 px-4 sm:px-0">
               <a href="#booking" className="hero-cta bg-sage text-linen px-8 py-4 rounded-full font-medium hover:bg-sage/90 transition-all shadow-[0_8px_20px_rgb(107,127,94,0.3)] hover:shadow-[0_12px_25px_rgb(107,127,94,0.4)] hover:-translate-y-1">Book a Consultation</a>
               <a href="#about" className="hero-cta bg-white text-charcoal px-8 py-4 rounded-full font-medium border border-sage/20 hover:border-sage hover:text-sage transition-all shadow-sm hover:shadow-md">Learn About Homoeopathy</a>
             </div>
           </div>
 
           <div className="order-1 lg:order-2 relative hero-visuals">
-            <div className="relative w-full max-w-md mx-auto lg:max-w-none lg:w-[90%] lg:ml-auto lg:mr-0 aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white bg-white/50 flex items-center justify-center p-8">
+            <div className="relative w-full max-w-sm mx-auto lg:max-w-none lg:w-[90%] lg:ml-auto lg:mr-0 aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white bg-white/50 flex items-center justify-center p-8">
               <div className="absolute inset-0 bg-sage/5 mix-blend-multiply z-10 transition-opacity duration-700 hover:opacity-0 pointer-events-none"></div>
               <img src={homNav} alt="Homoecare Logo" className="w-full h-full object-contain scale-100 hover:scale-105 transition-transform duration-[1.5s] ease-out drop-shadow-lg" />
             </div>
-            <div className="absolute -bottom-8 -left-6 lg:-left-12 bg-white/90 backdrop-blur-xl p-6 rounded-3xl shadow-[0_10px_30px_rgb(0,0,0,0.08)] border border-white max-w-xs hidden md:block">
+            <div className="absolute -bottom-8 -left-6 lg:-left-12 bg-white/90 backdrop-blur-xl p-6 rounded-3xl shadow-[0_10px_30px_rgb(0,0,0,0.08)] border border-white max-w-[240px] hidden md:block">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 bg-sage/10 rounded-2xl flex items-center justify-center text-2xl">🌱</div>
                 <div>
@@ -226,7 +226,7 @@ export default function LandingPage() {
       {/* About */}
       <section className="py-24 bg-white/40" id="about">
         <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-          <div className="about-photo-wrap relative">
+          <div className="about-photo-wrap relative max-w-md mx-auto md:max-w-none">
             <div className="absolute inset-0 bg-sage/20 rounded-t-full rounded-b-2xl translate-x-4 translate-y-4"></div>
             <img src={docPic} alt="Dr. Kruti Desai" className="relative z-10 w-full h-auto object-cover rounded-t-full rounded-b-2xl shadow-xl transition-all duration-700" />
           </div>
@@ -255,7 +255,7 @@ export default function LandingPage() {
               </div>
             </div>
             
-            <div className="pt-6 flex gap-6">
+            <div className="pt-6 flex flex-col sm:flex-row gap-6">
               <a href="tel:+919081660475" className="flex items-center gap-2 text-charcoal/80 hover:text-sage font-medium"><span className="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">📞</span> +91 9081660475</a>
               <a href="mailto:drkrutidesai752@gmail.com" className="flex items-center gap-2 text-charcoal/80 hover:text-sage font-medium"><span className="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">✉️</span> drkrutidesai752@gmail.com</a>
             </div>
@@ -303,7 +303,7 @@ export default function LandingPage() {
             <h2 className="font-serif text-4xl md:text-5xl text-charcoal">Conditions I've Managed</h2>
           </div>
           
-          <div className="conditions-grid flex flex-wrap justify-center items-center gap-x-5 gap-y-6 max-w-5xl mx-auto mb-32 px-2 perspective-1000">
+          <div className="conditions-grid flex flex-wrap justify-center items-center gap-x-4 gap-y-5 max-w-5xl mx-auto mb-32 px-2 perspective-1000">
             {conditions.map((item, i) => {
               // Creating a stunning asymmetric aesthetic by alternating 3 distinct luxury styles
               const isStyle1 = i % 3 === 0;
@@ -311,14 +311,14 @@ export default function LandingPage() {
               
               const baseStyle = "condition-item relative border shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-colors transition-shadow duration-500 cursor-default group overflow-hidden flex-shrink-0 will-change-transform";
               const specificStyle = isStyle1 
-                ? "bg-white border-sage/20 text-charcoal rounded-full px-8 md:px-10 py-4 md:py-5 hover:shadow-[0_15px_40px_rgba(107,127,94,0.12)] hover:border-sage"
+                ? "bg-white border-sage/20 text-charcoal rounded-full px-5 sm:px-8 py-3 sm:py-4 hover:shadow-[0_15px_40px_rgba(107,127,94,0.12)] hover:border-sage"
                 : isStyle2
-                ? "bg-sage/10 border-sage/30 text-sage rounded-[2rem] px-10 md:px-12 py-5 md:py-6 hover:bg-sage hover:text-white hover:shadow-[0_20px_40px_rgba(107,127,94,0.3)]"
-                : "bg-background border-charcoal/10 text-charcoal/70 rounded-[1.2rem] px-6 md:px-8 py-3 md:py-4 hover:border-charcoal/30 hover:bg-white hover:text-charcoal";
+                ? "bg-sage/10 border-sage/30 text-sage rounded-[2rem] px-6 sm:px-10 py-4 sm:py-5 hover:bg-sage hover:text-white hover:shadow-[0_20px_40px_rgba(107,127,94,0.3)]"
+                : "bg-background border-charcoal/10 text-charcoal/70 rounded-[1.2rem] px-4 sm:px-6 py-2 sm:py-3 hover:border-charcoal/30 hover:bg-white hover:text-charcoal";
               
               return (
                 <div key={item} className={`${baseStyle} ${specificStyle}`}>
-                  <span className="font-serif text-xl md:text-2xl relative z-10 tracking-wide font-medium">{item}</span>
+                  <span className="font-serif text-base sm:text-xl md:text-2xl relative z-10 tracking-wide font-medium whitespace-nowrap">{item}</span>
                   {/* Premium Glass Sheen Effect on Hover */}
                   <div className="absolute top-0 -left-[150%] w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent skew-x-[45deg] group-hover:left-[200%] transition-all duration-[1.2s] ease-in-out z-0 pointer-events-none"></div>
                 </div>
@@ -432,7 +432,7 @@ export default function LandingPage() {
                       <option value="whatsapp">WhatsApp Consult</option>
                     </select>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 md:col-span-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:col-span-2">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-charcoal/80">Preferred Date *</label>
                       <input required type="date" className="w-full bg-background px-4 py-3 rounded-xl border border-sage/20 focus:border-sage focus:ring-1 focus:ring-sage outline-none transition-all" min={new Date().toISOString().split("T")[0]} value={booking.preferredDate} onChange={e => setBooking(p => ({...p, preferredDate: e.target.value}))} />

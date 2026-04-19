@@ -9,7 +9,13 @@ import { settingsRouter } from "./routes/settings.js";
 
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || "http://localhost:5173" }));
+// Flexible CORS configuration
+app.use(cors({
+  origin: true, // This allows all origins for easier initial deployment. 
+  // You can restrict this later by specifying your Netlify URL
+  credentials: true
+}));
+
 app.use(express.json());
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
@@ -24,7 +30,7 @@ const port = Number(process.env.PORT || 5000);
 connectDB()
   .then(() => {
     app.listen(port, () => {
-      console.log(`Server running on http://localhost:${port}`);
+      console.log(`Server running on port ${port}`);
     });
   })
   .catch((error) => {

@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { clearToken } from "../../lib/auth";
+import homoLogo from "../../img/homo_logo.png";
 import { useState, useEffect } from "react";
 
 export default function AdminLayout() {
@@ -33,7 +34,7 @@ export default function AdminLayout() {
       <aside className={`fixed lg:static inset-y-0 left-0 w-72 bg-white border-r border-sage/10 shadow-xl shadow-sage/5 transform ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 flex flex-col`}>
         <div className="p-8 border-b border-sage/10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-full bg-sage flex items-center justify-center text-white font-serif italic text-lg tracking-wide pb-1 shadow-md shadow-sage/20">H</div>
+            <img src={homoLogo} alt="Logo" className="w-10 h-10 object-contain" />
             <h3 className="font-serif text-2xl text-charcoal font-semibold">Homoecare</h3>
           </div>
           <p className="text-sm font-medium text-sage tracking-wider uppercase ml-13">Admin Panel</p>
@@ -77,7 +78,7 @@ export default function AdminLayout() {
         {/* Mobile Header */}
         <header className="lg:hidden flex items-center justify-between p-4 bg-white border-b border-sage/10 z-30">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-sage flex items-center justify-center text-white font-serif italic pb-0.5">H</div>
+            <img src={homoLogo} alt="Logo" className="w-8 h-8 object-contain" />
             <span className="font-serif text-lg font-semibold text-charcoal">Homoecare</span>
           </div>
           <button 

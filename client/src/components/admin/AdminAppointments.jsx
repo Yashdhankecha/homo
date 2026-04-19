@@ -88,7 +88,8 @@ export default function AdminAppointments() {
     pending: "bg-amber-100 text-amber-700",
     confirmed: "bg-green-100 text-green-700",
     completed: "bg-blue-100 text-blue-700",
-    cancelled: "bg-red-100 text-red-700"
+    cancelled: "bg-red-100 text-red-700",
+    rejected: "bg-rose-100 text-rose-700"
   };
 
   return (
@@ -102,7 +103,7 @@ export default function AdminAppointments() {
 
       <div className="bg-white rounded-3xl border border-sage/10 shadow-sm p-6 mb-8 transform transition-all">
         <div className="flex flex-wrap gap-2 mb-8">
-          {["all", "pending", "confirmed", "completed", "cancelled"].map((s) => (
+          {["all", "pending", "confirmed", "completed", "cancelled", "rejected"].map((s) => (
             <button 
               key={s} 
               className={`px-5 py-2.5 rounded-full capitalize text-sm font-medium transition-all ${statusFilter === s ? "bg-sage text-white shadow-md shadow-sage/20" : "bg-sage/5 text-charcoal/70 hover:bg-sage/10 hover:text-sage"}`}
@@ -197,6 +198,9 @@ export default function AdminAppointments() {
                         )}
                         {a.status === "confirmed" && (
                           <button className="bg-blue-50 text-blue-700 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors" onClick={() => updateStatus(a._id, "completed")}>Complete</button>
+                        )}
+                        {["pending", "confirmed"].includes(a.status) && (
+                          <button className="bg-rose-50 text-rose-700 hover:bg-rose-100 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors" onClick={() => updateStatus(a._id, "rejected")}>Reject</button>
                         )}
                         {["pending", "confirmed"].includes(a.status) && (
                           <button className="bg-red-50 text-red-700 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors" onClick={() => updateStatus(a._id, "cancelled")}>Cancel</button>

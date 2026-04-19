@@ -48,7 +48,7 @@ const CaseCard = ({ quote, title, profile, duration, outcome }) => (
 
 export default function LandingPage() {
   const [booking, setBooking] = useState({
-    name: "", age: "", gender: "Female", phone: "", email: "", mode: "in-person", preferredDate: "", preferredTime: "morning", complaint: "", source: ""
+    name: "", age: "", gender: "Female", phone: "", email: "", mode: "video", preferredDate: "", preferredTime: "morning", complaint: "", source: ""
   });
   const [statusText, setStatusText] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -109,9 +109,20 @@ export default function LandingPage() {
 
   async function submitBooking(e) {
     e.preventDefault();
+    
+    // Quick Cyber-Proofing: Basic Sanitization & Validation
+    if (!/^\d{10}$/.test(booking.phone)) {
+      setStatusText("Please enter a valid 10-digit phone number.");
+      return;
+    }
+
     setStatusText("Submitting...");
     try {
-      await axios.post(`${API_BASE}/api/appointments`, booking);
+      await axios.post(`${API_BASE}/api/appointments`, {
+        ...booking,
+        name: booking.name.trim().substring(0, 50),
+        complaint: booking.complaint.trim().substring(0, 1000)
+      });
       setStatusText("✓ Appointment requested successfully!");
       if (waPreview) window.open(waPreview, "_blank");
     } catch (error) {
@@ -243,7 +254,7 @@ export default function LandingPage() {
             
             <div className="pt-6 flex gap-6">
               <a href="tel:+919081660475" className="flex items-center gap-2 text-charcoal/80 hover:text-sage font-medium"><span className="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">📞</span> +91 9081660475</a>
-              <a href="mailto:krutidesai752@gmail.com" className="flex items-center gap-2 text-charcoal/80 hover:text-sage font-medium"><span className="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">✉️</span> Email</a>
+              <a href="mailto:drkrutidesai752@gmail.com" className="flex items-center gap-2 text-charcoal/80 hover:text-sage font-medium"><span className="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">✉️</span> drkrutidesai752@gmail.com</a>
             </div>
           </div>
         </div>
@@ -260,7 +271,7 @@ export default function LandingPage() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: "🌐", title: "Modes", body: "In-Person · Video Call · WhatsApp" },
+              { icon: "🌐", title: "Modes", body: "Video Call · WhatsApp" },
               { icon: "🕐", title: "Timings", body: "Mon–Sat: 10 AM – 1 PM & 5 PM – 8 PM" },
               { icon: "₹", title: "Fee", body: "First Visit: ₹500 · Follow-up: ₹300" },
               { icon: "🗣️", title: "Languages", body: "Gujarati · Hindi · English" }
@@ -367,14 +378,7 @@ export default function LandingPage() {
                     <span className="text-2xl mt-1 text-sage">✉️</span>
                     <div>
                       <h4 className="font-bold font-serif text-xl">Email</h4>
-                      <p>krutidesai752@gmail.com</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <span className="text-2xl mt-1 text-sage">📍</span>
-                    <div>
-                      <h4 className="font-bold font-serif text-xl">Clinic</h4>
-                      <p>Anand, Gujarat, India</p>
+                      <p>drkrutidesai752@gmail.com</p>
                     </div>
                   </div>
                 </div>
@@ -400,7 +404,19 @@ export default function LandingPage() {
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-charcoal/80">Phone Number *</label>
-                    <input required type="tel" className="w-full bg-background px-4 py-3 rounded-xl border border-sage/20 focus:border-sage focus:ring-1 focus:ring-sage outline-none transition-all placeholder:text-charcoal/30" placeholder="+91 XXXXX XXXXX" value={booking.phone} onChange={e => setBooking(p => ({...p, phone: e.target.value}))} />
+                    <input 
+                      required 
+                      type="tel" 
+                      pattern="[0-9]{10}"
+                      maxLength="10"
+                      className="w-full bg-background px-4 py-3 rounded-xl border border-sage/20 focus:border-sage focus:ring-1 focus:ring-sage outline-none transition-all placeholder:text-charcoal/30" 
+                      placeholder="XXXXXXXXXX" 
+                      value={booking.phone} 
+                      onChange={e => {
+                        const val = e.target.value.replace(/\D/g, '').substring(0, 10);
+                        setBooking(p => ({...p, phone: val}));
+                      }} 
+                    />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-charcoal/80">Email</label>
@@ -409,7 +425,6 @@ export default function LandingPage() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-charcoal/80">Mode *</label>
                     <select required className="w-full bg-background px-4 py-3 rounded-xl border border-sage/20 focus:border-sage focus:ring-1 focus:ring-sage outline-none transition-all" value={booking.mode} onChange={e => setBooking(p => ({...p, mode: e.target.value}))}>
-                      <option value="in-person">In-Person (Anand Clinic)</option>
                       <option value="video">Video Call</option>
                       <option value="whatsapp">WhatsApp Consult</option>
                     </select>

@@ -7,12 +7,12 @@ const appointmentSchema = new mongoose.Schema(
     gender: String,
     phone: { type: String, required: true },
     email: String,
-    mode: { type: String, enum: ["in-person", "video", "whatsapp"], required: true },
+    mode: { type: String, enum: ["video", "whatsapp"], required: true },
     preferredDate: { type: Date, required: true },
     preferredTime: { type: String, enum: ["morning", "evening"], required: true },
     complaint: { type: String, required: true },
     source: String,
-    status: { type: String, enum: ["pending", "confirmed", "completed", "cancelled"], default: "pending" },
+    status: { type: String, enum: ["pending", "confirmed", "completed", "cancelled", "rejected"], default: "pending" },
   },
   { timestamps: true }
 );

@@ -12,8 +12,7 @@ export default function AdminSettings() {
     clinicName: "Homoecare by Dr. Kruti Desai",
     doctorName: "Dr. Kruti Desai",
     phone: "+91 9081660475",
-    email: "krutidesai752@gmail.com",
-    clinicAddress: "Anand, Gujarat, India",
+    email: "drkrutidesai752@gmail.com",
     notificationsWhatsapp: true,
     notificationsEmail: true,
   });
@@ -82,8 +81,14 @@ export default function AdminSettings() {
               <div className="space-y-2 text-left">
                 <label className="text-sm font-medium text-charcoal/70">Public Phone Number</label>
                 <input 
+                  type="tel"
+                  maxLength="15"
                   className="w-full bg-background px-4 py-3 rounded-xl border border-sage/20 focus:border-sage outline-none transition-all shadow-inner"
-                  value={form.phone} onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))} 
+                  value={form.phone} 
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/[^\d+]/g, '');
+                    setForm((p) => ({ ...p, phone: val }));
+                  }} 
                 />
               </div>
               <div className="space-y-2 text-left">
@@ -91,13 +96,6 @@ export default function AdminSettings() {
                 <input 
                   className="w-full bg-background px-4 py-3 rounded-xl border border-sage/20 focus:border-sage outline-none transition-all shadow-inner"
                   value={form.email} onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))} 
-                />
-              </div>
-              <div className="space-y-2 text-left md:col-span-2">
-                <label className="text-sm font-medium text-charcoal/70">Clinic Address</label>
-                <input 
-                  className="w-full bg-background px-4 py-3 rounded-xl border border-sage/20 focus:border-sage outline-none transition-all shadow-inner"
-                  value={form.clinicAddress} onChange={(e) => setForm((p) => ({ ...p, clinicAddress: e.target.value }))} 
                 />
               </div>
             </div>
@@ -112,7 +110,7 @@ export default function AdminSettings() {
             
             <div className="space-y-4">
               <label className="flex items-center gap-4 p-4 rounded-2xl border border-sage/10 hover:bg-sage/5 transition-colors cursor-pointer group">
-                <div relative="true" className="flex items-center">
+                <div className="flex items-center">
                   <input
                     type="checkbox"
                     className="w-5 h-5 accent-sage border-sage/20 rounded cursor-pointer"

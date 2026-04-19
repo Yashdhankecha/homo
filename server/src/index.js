@@ -13,6 +13,7 @@ app.use(cors({ origin: process.env.CLIENT_ORIGIN || "http://localhost:5173" }));
 app.use(express.json());
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
+app.get("/api/ping", (_req, res) => res.send("alive"));
 app.use("/api/auth", authRouter);
 app.use("/api/appointments", appointmentRouter);
 app.use("/api/messages", messageRouter);

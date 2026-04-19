@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken } from "./auth";
 
 // If VITE_API_BASE_URL is not set, we use "http://localhost:5000" as a fallback for local dev.
 // In production, the environment variable MUST be set in your dashboard (Netlify/Render).
@@ -12,7 +13,7 @@ const api = axios.create({
 
 // Add a request interceptor to include the token in every request if it exists
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("homo_token");
+  const token = getToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -22,3 +23,4 @@ api.interceptors.request.use((config) => {
 });
 
 export default api;
+

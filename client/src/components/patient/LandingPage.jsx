@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useRef, useLayoutEffect } from "react";
-import axios from "axios";
+import api from "../../lib/api";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "@studio-freight/lenis";
@@ -8,8 +8,6 @@ import homoLogo from "../../img/homo_logo.png";
 import docPic from "../../img/doc_pic.jpeg";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 const conditions = [
   "Skin & Hair", "Eczema", "Psoriasis", "Acne", "Hair Fall", "Dandruff", 
@@ -82,7 +80,7 @@ export default function LandingPage() {
       // Cases Specialization Scroll Trigger (3D Organic Cascade)
       gsap.fromTo(".condition-item", 
         { y: 80, opacity: 0, scale: 0.9, rotationX: 45 },
-        { y: 0, opacity: 1, scale: 1, rotationX: 0, stagger: 0.08, duration: 1.2, Math: "power3.out", ease: "back.out(1.2)",
+        { y: 0, opacity: 1, scale: 1, rotationX: 0, stagger: 0.08, duration: 1.2, ease: "power3.out",
           scrollTrigger: { trigger: "#cases", start: "top 70%" }
         }
       );
@@ -118,7 +116,7 @@ export default function LandingPage() {
 
     setStatusText("Submitting...");
     try {
-      await axios.post(`${API_BASE}/api/appointments`, {
+      await api.post("/api/appointments", {
         ...booking,
         name: booking.name.trim().substring(0, 50),
         complaint: booking.complaint.trim().substring(0, 1000)
@@ -185,6 +183,11 @@ export default function LandingPage() {
         
         <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-8 items-center relative z-10 mt-8 mb-16">
           <div className="order-2 lg:order-1 max-w-2xl text-center lg:text-left mx-auto lg:mx-0">
+            
+            <div className="hero-badge inline-flex items-center gap-2 bg-sage/10 text-sage px-4 py-2 rounded-full mb-6 font-medium text-sm border border-sage/20">
+              <span className="w-2 h-2 bg-sage rounded-full animate-pulse"></span>
+              Advanced Classical Homoeopathy
+            </div>
             
             <h1 className="hero-headline font-serif text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.05] text-charcoal mb-8">
               <span className="block">Healing That Works</span>

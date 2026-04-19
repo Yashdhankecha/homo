@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../lib/api";
 import { setToken } from "../../lib/auth";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+import homoLogo from "../../img/homo_logo.png";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -16,7 +15,10 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
     try {
-      const { data } = await axios.post(`${API_BASE}/api/auth/login`, form);
+      const { data } = await api.post("/api/auth/login", {
+        email: form.email.trim().toLowerCase(),
+        password: form.password
+      });
       setToken(data.token);
       navigate("/admin/dashboard");
     } catch (err) {
@@ -33,7 +35,7 @@ export default function LoginPage() {
       
       <div className="w-full max-w-md bg-white border border-sage/10 shadow-2xl shadow-sage/10 rounded-3xl p-8 relative z-10">
         <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-full bg-sage flex items-center justify-center text-white font-serif italic text-xl mx-auto mb-4 tracking-wide pb-1 shadow-lg shadow-sage/20">H</div>
+          <img src={homoLogo} alt="Logo" className="w-16 h-16 object-contain mx-auto mb-4" />
           <h2 className="font-serif text-3xl text-charcoal">Doctor Area</h2>
           <p className="text-charcoal/60 mt-1">Please enter your credentials to proceed.</p>
         </div>

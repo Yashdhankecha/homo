@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { getToken } from "../../lib/auth";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+import api from "../../lib/api";
 
 export default function AdminSettings() {
-  const token = getToken();
-  const headers = { Authorization: `Bearer ${token}` };
-
   const [form, setForm] = useState({
     clinicName: "Homoecare by Dr. Kruti Desai",
     doctorName: "Dr. Kruti Desai",
@@ -20,7 +14,7 @@ export default function AdminSettings() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios.get(`${API_BASE}/api/settings`, { headers })
+    api.get("/api/settings")
       .then(({ data }) => {
         if (data && Object.keys(data).length > 0) {
           setForm((prev) => ({ ...prev, ...data }));
@@ -33,7 +27,7 @@ export default function AdminSettings() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.put(`${API_BASE}/api/settings`, form, { headers });
+      await api.put("/api/settings", form);
       setSaved("Settings saved successfully.");
       setTimeout(() => setSaved(""), 3000);
     } catch (e) {

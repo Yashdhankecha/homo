@@ -1,8 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
-import { getToken } from "../../lib/auth";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+import api from "../../lib/api";
 
 function toCSV(rows) {
   const headers = ["Name", "Phone", "Mode", "Date", "Time", "Complaint", "Status", "Booked On"];
@@ -21,9 +18,6 @@ function toCSV(rows) {
 }
 
 export default function AdminAppointments() {
-  const token = getToken();
-  const headers = { Authorization: `Bearer ${token}` };
-
   const [appointments, setAppointments] = useState([]);
   const [statusFilter, setStatusFilter] = useState("all");
   const [search, setSearch] = useState("");
@@ -34,7 +28,7 @@ export default function AdminAppointments() {
   async function loadAppointments() {
     setLoading(true);
     try {
-      const { data } = await axios.get(`${API_BASE}/api/appointments`, { headers });
+      const { data } = await api.get("/api/appointments");
       setAppointments(data);
     } catch (err) {
       console.error(err);
@@ -64,7 +58,7 @@ export default function AdminAppointments() {
   async function updateStatus(id, status) {
     if (!window.confirm(`Marks this appointment as ${status}?`)) return;
     try {
-      await axios.patch(`${API_BASE}/api/appointments/${id}/status`, { status }, { headers });
+      await api.patch(`/api/appointments/${id}/status`, { status });
       loadAppointments();
     } catch (e) {
       alert("Failed to update status");

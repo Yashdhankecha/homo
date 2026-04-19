@@ -1,8 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
-import { getToken } from "../../lib/auth";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+import api from "../../lib/api";
 
 const templates = {
   confirmed: "Dear [Name],\n\nYour appointment with Dr. Kruti Desai is confirmed for [Date] at [Time Slot].\nMode: [Mode].\n\nIf you have any prior medical reports, please keep them ready. Please be available 5 minutes early. For queries, reply to this message.\n\nWarm regards,\nHomoecare 🌿",
@@ -19,9 +16,6 @@ function fillTemplate(text, appointment) {
 }
 
 export default function AdminMessages() {
-  const token = getToken();
-  const headers = { Authorization: `Bearer ${token}` };
-
   const [appointments, setAppointments] = useState([]);
   const [logs, setLogs] = useState([]);
   const [selectedId, setSelectedId] = useState("");
@@ -32,8 +26,8 @@ export default function AdminMessages() {
 
   useEffect(() => {
     Promise.all([
-      axios.get(`${API_BASE}/api/appointments`, { headers }),
-      axios.get(`${API_BASE}/api/messages/log`, { headers }),
+      api.get("/api/appointments"),
+      api.get("/api/messages/log"),
     ]).then(([apptRes, logRes]) => {
       setAppointments(apptRes.data);
       setLogs(logRes.data);
@@ -52,8 +46,8 @@ export default function AdminMessages() {
   async function addLog() {
     if (!selected) return;
     try {
-      await axios.post(
-        `${API_BASE}/api/messages/log`,
+      await api.post(
+        "/api/messages/log",
         {
           channel,
           patientName: selected.name,
@@ -61,10 +55,9 @@ export default function AdminMessages() {
           patientEmail: selected.email,
           template: templateKey,
           body: customBody,
-        },
-        { headers }
+        }
       );
-      const { data } = await axios.get(`${API_BASE}/api/messages/log`, { headers });
+      const { data } = await api.get("/api/messages/log");
       setLogs(data);
     } catch (e) {
       console.error(e);

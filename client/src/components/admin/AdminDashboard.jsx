@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { getToken } from "../../lib/auth";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+import api from "../../lib/api";
 
 export default function AdminDashboard() {
-  const token = getToken();
   const [stats, setStats] = useState({
     appointmentsThisMonth: 0,
     pendingConfirmations: 0,
@@ -16,17 +12,16 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const headers = { Authorization: `Bearer ${token}` };
     Promise.all([
-      axios.get(`${API_BASE}/api/appointments/stats`, { headers }).catch(e => ({ data: stats })),
-      axios.get(`${API_BASE}/api/appointments/today`, { headers }).catch(e => ({ data: [] })),
+      api.get("/api/appointments/stats").catch(e => ({ data: stats })),
+      api.get("/api/appointments/today").catch(e => ({ data: [] })),
     ]).then(([statsRes, todayRes]) => {
       setStats(statsRes.data);
       setTodayList(todayRes.data);
     }).finally(() => {
       setLoading(false);
     });
-  }, [token]);
+  }, []);
 
   // Handle greeting based on time
   const hour = new Date().getHours();

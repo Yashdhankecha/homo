@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "@studio-freight/lenis";
 import homNav from "../../img/hom_nav.png";
 import homoLogo from "../../img/homo_logo.png";
+import docPic from "../../img/doc_pic.jpeg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -213,7 +214,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
           <div className="about-photo-wrap relative">
             <div className="absolute inset-0 bg-sage/20 rounded-t-full rounded-b-2xl translate-x-4 translate-y-4"></div>
-            <img src="https://placehold.co/480x640/6B7F5E/EDE8DF?text=Dr+Kruti+Desai" alt="Dr. Kruti Desai" className="relative z-10 w-full h-auto object-cover rounded-t-full rounded-b-2xl shadow-xl grayscale-[20%] hover:grayscale-0 transition-all duration-700" />
+            <img src={docPic} alt="Dr. Kruti Desai" className="relative z-10 w-full h-auto object-cover rounded-t-full rounded-b-2xl shadow-xl transition-all duration-700" />
           </div>
           
           <div className="about-content space-y-6">
@@ -222,7 +223,7 @@ export default function LandingPage() {
             <p className="text-xl text-taupe font-serif italic">Consultant Homoeopathic Physician</p>
             <div className="w-16 h-px bg-sage/30"></div>
             <p className="text-charcoal/80 leading-relaxed text-lg">
-              "I believe every patient deserves individual attention. Homoeopathy isn't one-size-fits-all — your symptoms, your history, and your story shape every prescription I write. My approach combines classical case-taking with modern understanding of chronic disease patterns."
+              "I believe every patient deserves individual attention. Homoeopathy isn't one-size-fits-all - your symptoms, your history, and your story shape every prescription I write. My approach combines classical case-taking with modern understanding of chronic disease patterns."
             </p>
             
             <div className="bg-linen/60 border border-sage/15 p-6 rounded-2xl mt-8">

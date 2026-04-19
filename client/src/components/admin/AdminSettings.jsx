@@ -9,7 +9,11 @@ export default function AdminSettings() {
     email: "drkrutidesai752@gmail.com",
     notificationsWhatsapp: true,
     notificationsEmail: true,
+    feeNewCase: "350",
+    feeOldCase: "150",
+    medicineCharges: "Medicine charges are extra (separate)",
   });
+
 
   const [account, setAccount] = useState({
     loginEmail: "",
@@ -127,6 +131,38 @@ export default function AdminSettings() {
                   <input 
                     className="w-full bg-background px-4 py-3 rounded-xl border border-sage/20 focus:border-sage outline-none transition-all shadow-inner"
                     value={form.email} onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))} 
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Pricing Section */}
+            <div>
+              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-sage/10">
+                <div className="w-10 h-10 rounded-xl bg-sage/10 flex items-center justify-center text-sage text-xl">💰</div>
+                <h3 className="font-serif text-2xl text-charcoal font-semibold">Pricing & Fees</h3>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2 text-left">
+                  <label className="text-sm font-medium text-charcoal/70">New Case Fee (₹)</label>
+                  <input 
+                    className="w-full bg-background px-4 py-3 rounded-xl border border-sage/20 focus:border-sage outline-none transition-all shadow-inner"
+                    value={form.feeNewCase || ""} onChange={(e) => setForm((p) => ({ ...p, feeNewCase: e.target.value }))} 
+                  />
+                </div>
+                <div className="space-y-2 text-left">
+                  <label className="text-sm font-medium text-charcoal/70">Old Case (Follow-up) Fee (₹)</label>
+                  <input 
+                    className="w-full bg-background px-4 py-3 rounded-xl border border-sage/20 focus:border-sage outline-none transition-all shadow-inner"
+                    value={form.feeOldCase || ""} onChange={(e) => setForm((p) => ({ ...p, feeOldCase: e.target.value }))} 
+                  />
+                </div>
+                <div className="space-y-2 text-left md:col-span-2">
+                  <label className="text-sm font-medium text-charcoal/70">Medicine Charges Info</label>
+                  <input 
+                    className="w-full bg-background px-4 py-3 rounded-xl border border-sage/20 focus:border-sage outline-none transition-all shadow-inner"
+                    value={form.medicineCharges || ""} onChange={(e) => setForm((p) => ({ ...p, medicineCharges: e.target.value }))} 
                   />
                 </div>
               </div>

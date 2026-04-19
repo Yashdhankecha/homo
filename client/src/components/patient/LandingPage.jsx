@@ -51,6 +51,25 @@ export default function LandingPage() {
   const [statusText, setStatusText] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mainRef = useRef(null);
+  const [settings, setSettings] = useState({
+    clinicName: "Homoecare by Dr. Kruti Desai",
+    doctorName: "Dr. Kruti Desai",
+    phone: "+91 9081660475",
+    email: "drkrutidesai752@gmail.com",
+    feeNewCase: "350",
+    feeOldCase: "150",
+    medicineCharges: "Medicine charges are extra (separate)"
+  });
+
+  useEffect(() => {
+    api.get("/api/settings")
+      .then(({ data }) => {
+        if (data && Object.keys(data).length > 0) {
+          setSettings(prev => ({ ...prev, ...data }));
+        }
+      })
+      .catch(err => console.log("Error fetching settings:", err));
+  }, []);
 
   // Initialize smooth scroll & global animations
   useLayoutEffect(() => {
@@ -137,8 +156,8 @@ export default function LandingPage() {
           <div className="flex items-center gap-2 md:gap-3">
             <img src={homoLogo} alt="Homoecare Logo" className="h-9 md:h-12 w-auto object-contain" />
             <div className="flex flex-col sm:flex-row sm:items-baseline">
-              <strong className="font-serif text-lg md:text-xl tracking-wide text-charcoal leading-none">Homoecare</strong>
-              <span className="font-sans text-[10px] md:text-sm font-normal text-taupe sm:ml-1.5 leading-none mt-1 sm:mt-0">by Dr. Kruti Desai</span>
+              <strong className="font-serif text-lg md:text-xl tracking-wide text-charcoal leading-none">{settings.clinicName.split(' by ')[0]}</strong>
+              <span className="font-sans text-[10px] md:text-sm font-normal text-taupe sm:ml-1.5 leading-none mt-1 sm:mt-0">by {settings.doctorName}</span>
             </div>
           </div>
           
@@ -233,7 +252,7 @@ export default function LandingPage() {
           
           <div className="about-content space-y-6">
             <p className="text-sage font-medium tracking-wider text-sm uppercase">✦ About the Doctor</p>
-            <h2 className="font-serif text-4xl md:text-5xl text-charcoal">Dr. Kruti Desai</h2>
+            <h2 className="font-serif text-4xl md:text-5xl text-charcoal">{settings.doctorName}</h2>
             <p className="text-xl text-taupe font-serif italic">Consultant Homoeopathic Physician</p>
             <div className="w-16 h-px bg-sage/30"></div>
             <p className="text-charcoal/80 leading-relaxed text-lg">
@@ -256,8 +275,8 @@ export default function LandingPage() {
             </div>
             
             <div className="pt-6 flex flex-col sm:flex-row gap-6">
-              <a href="tel:+919081660475" className="flex items-center gap-2 text-charcoal/80 hover:text-sage font-medium"><span className="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">📞</span> +91 9081660475</a>
-              <a href="mailto:drkrutidesai752@gmail.com" className="flex items-center gap-2 text-charcoal/80 hover:text-sage font-medium"><span className="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">✉️</span> drkrutidesai752@gmail.com</a>
+              <a href={`tel:${settings.phone}`} className="flex items-center gap-2 text-charcoal/80 hover:text-sage font-medium"><span className="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">📞</span> {settings.phone}</a>
+              <a href={`mailto:${settings.email}`} className="flex items-center gap-2 text-charcoal/80 hover:text-sage font-medium"><span className="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">✉️</span> {settings.email}</a>
             </div>
           </div>
         </div>
@@ -272,12 +291,13 @@ export default function LandingPage() {
             <p className="text-charcoal/70 text-lg">Every consultation begins with a detailed case-taking session. Classical homoeopathic principles guide remedy selection. Follow-ups track your progress and refine treatment.</p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {[
               { icon: "🌐", title: "Modes", body: "Video Call · WhatsApp" },
               { icon: "🕐", title: "Timings", body: "Mon–Sat: 10 AM – 1 PM & 5 PM – 8 PM" },
-              { icon: "₹", title: "Fee", body: "First Visit: ₹500 · Follow-up: ₹300" },
-              { icon: "🗣️", title: "Languages", body: "Gujarati · Hindi · English" }
+              { icon: "₹", title: "Consultation Fee", body: `New Case: ₹${settings.feeNewCase} · Follow-up: ₹${settings.feeOldCase}` },
+              { icon: "💊", title: "Medicines", body: settings.medicineCharges },
+              { icon: "🗣️", title: "Languages", body: "Gujarati · Hindi · English · Bengali" }
             ].map((card, i) => (
               <div key={i} className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl border border-sage/10 hover:border-sage/30 hover:-translate-y-1 hover:shadow-xl shadow-sm transition-all duration-300">
                 <div className="w-12 h-12 rounded-full bg-sage/10 text-xl flex items-center justify-center mb-6">{card.icon}</div>
@@ -286,6 +306,7 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
@@ -373,15 +394,15 @@ export default function LandingPage() {
                     <span className="text-2xl mt-1 text-sage">📞</span>
                     <div>
                       <h4 className="font-bold font-serif text-xl">Phone / WhatsApp</h4>
-                      <p>+91 9081660475</p>
-                      <a href="https://wa.me/919081660475" target="_blank" rel="noreferrer" className="text-sage text-sm font-medium hover:underline inline-block mt-1">Message Directly →</a>
+                      <p>{settings.phone}</p>
+                      <a href={`https://wa.me/${settings.phone.replace(/[^\d]/g, '')}`} target="_blank" rel="noreferrer" className="text-sage text-sm font-medium hover:underline inline-block mt-1">Message Directly →</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
                     <span className="text-2xl mt-1 text-sage">✉️</span>
                     <div>
                       <h4 className="font-bold font-serif text-xl">Email</h4>
-                      <p>drkrutidesai752@gmail.com</p>
+                      <p>{settings.email}</p>
                     </div>
                   </div>
                 </div>
@@ -473,9 +494,9 @@ export default function LandingPage() {
           <div className="col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 rounded-full bg-sage flex items-center justify-center text-white font-serif italic pb-1">H</div>
-              <strong className="font-serif text-2xl tracking-wide text-linen">Homoecare</strong>
+              <strong className="font-serif text-2xl tracking-wide text-linen">{settings.clinicName.split(' by ')[0]}</strong>
             </div>
-            <p className="max-w-xs leading-relaxed text-sm">Healing rooted in nature. Guided by science.<br/>Consultant Homoeopathic Physician.</p>
+            <p className="max-w-xs leading-relaxed text-sm">Healing rooted in nature. Guided by science.<br/>{settings.doctorName}.</p>
           </div>
           <div>
             <h4 className="font-serif text-xl text-linen mb-6">Quick Links</h4>
@@ -492,9 +513,6 @@ export default function LandingPage() {
         </div>
         <div className="container mx-auto px-6 mt-16 pt-8 border-t border-linen/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
           <p>© {new Date().getFullYear()} Homoecare by Dr. Kruti Desai. All rights reserved.</p>
-          <div className="flex gap-4">
-            <a href="/admin/login" className="hover:text-sage transition-colors border-b border-transparent hover:border-sage">Doctor Login</a>
-          </div>
         </div>
       </footer>
     </div>
